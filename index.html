@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection with YOLOv5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        img {
+            display: block;
+            margin: 10px auto;
+            max-width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Object Detection with YOLOv5</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*,video/*" required>
+            <button type="submit">Upload File</button>
+        </form>
+
+        {% if result_img %}
+            <h2>Processed Image:</h2>
+            <img src="{{ url_for('output_file', filename=result_img) }}" alt="Detection Result">     
+        {% elif result_imgs %}
+            <h2>Processed Video Frames:</h2>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                {% for img in result_imgs %}
+                    <img src="{{ url_for('output_file', filename=img) }}" alt="Detection Result Frame" style="width: 300px; height: auto; margin: 5px;">
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
